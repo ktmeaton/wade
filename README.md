@@ -8,7 +8,7 @@ Tabular results are output in a format that is compatible for LabWare uploads. T
 
 ## Getting Started
 
-This tool can be run using RStudio (available at <https://www.rstudio.com/>)
+This tool can be run using RStudio (available at <https://www.rstudio.com/>) or Docker.
 
 ### Prerequisites
 
@@ -144,6 +144,65 @@ When running this program on some Windows machines, the MakeBlastdb program can 
     Variable Name: BLASTDB_LMDB_MAP_SIZE
     Variable Value: 1000000
     ```
+
+## Docker
+
+### Install
+
+1. Clone the [WADE](https://github.com/phac-nml/wade.git) repository and checkout the `docker` branch.
+
+    ```sh
+    git clone https://github.com/phac-nml/wade.git
+    cd wade
+    git checkout -b docker
+    ```
+
+1. Build the Docker image.
+
+    ```sh
+    docker build -t phac-nml/wade:latest .
+    ```
+
+### Run
+
+1. Run the Docker image.
+
+    ```sh
+    docker run \
+      -p 8787:8787 \
+      -e PASSWORD=password \
+      -v $(pwd)/WADE_Docker:/wade/local \
+      phac-nml/wade:latest
+    ```
+
+    - `-p 8787:8787`: Serve RStudio on port 8787 (http://localhost:8787/)
+    - `-e PASSWORD=password`: Set the RStudio password to "password".
+    - `-v $(pwd)/WADE_Docker:/wade/local`: Make your local contigs and VCF files (`WADE_Docker`) accessible inside the container at `/wade/local`.
+
+1. Open a web browser at http://localhost:8787/ to access Rstudio.
+
+    - Username: rstudio
+    - Password: password
+
+1. Go to `File` -> `Open File` and type in `/wade/WADE.R` to open the source File.
+
+1. Click on the "Run App" button
+
+### Configure
+
+In the `docker run` command, there is a parameter: `-v $(pwd)/WADE_Docker:/wade/local`. This makes your local contigs and VCF files (found inside `WADE_Docker`) accessible inside the Docker container at `/wade/local/`.
+
+- `./WADE_Docker/Example_contigs` → `/wade/local/Example_contigs`
+
+In the example `DirectoryLocations.csv` below, you can see how `ContigsDir` and `VCFDir` point to the path inside the Docker container:
+
+|OrgID    |LocalDir    |SystemDir       |ContigsDir                  |VCFDir                      |
+|:--------|:-----------|:---------------|:---------------------------|:---------------------------|
+|GAS      |/wade/local/|/wade/wade-data/|/wade/local/Example_contigs/|/wade/local/Example_contigs/|
+|PNEUMO   |/wade/local/|/wade/wade-data/|/wade/local/Example_contigs/|NA                          |
+|GBS      |/wade/local/|/wade/wade-data/|/wade/local/Example_contigs/|/wade/local/Example_contigs/|
+|GONO     |/wade/local/|/wade/wade-data/|/wade/local/Example_contigs/|NA                          |
+|Reference|/wade/local/|/wade/wade-data/|/wade/local/Example_contigs/|NA                          |
 
 ## WADE Standalone Programs
 

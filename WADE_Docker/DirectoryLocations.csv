@@ -1,0 +1,6 @@
+OrgID,LocalDir,SystemDir,ContigsDir,VCFDir
+GAS,/wade/local/,/wade/wade-data/,/wade/local/example_contigs/,/wade/local/example_contigs/
+PNEUMO,/wade/local/,/wade/wade-data/,/wade/local/example_contigs/,NA
+GBS,/wade/local/,/wade/wade-data/,/wade/local/example_contigs/,/wade/local/example_contigs/
+GONO,/wade/local/,/wade/wade-data/,/wade/local/example_contigs/,NA
+Reference,/wade/local/,/wade/wade-data/,/wade/local/example_contigs/,NA
